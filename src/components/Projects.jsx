@@ -6,6 +6,12 @@ import { ExternalLink, Star, X, ChevronLeft, ChevronRight, Images } from 'lucide
 import { GithubIcon } from '@/components/icons';
 import styles from '@/styles/projects.module.css';
 
+// Helper function to get image URL (handle both full URLs from Supabase and relative paths)
+const getImageUrl = (filename) => {
+  if (!filename) return '';
+  return filename.startsWith('http') ? filename : `/uploads/${filename}`;
+};
+
 export default function Projects({ projects = [] }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: '-100px' });
@@ -55,7 +61,7 @@ export default function Projects({ projects = [] }) {
           {projects.map((project, index) => {
             const images = project.images || [];
             const hasImages = images.length > 0;
-            const coverImage = project.imageUrl || (hasImages ? `/uploads/${images[0].filename}` : '');
+            const coverImage = project.imageUrl || (hasImages ? getImageUrl(images[0].filename) : '');
 
             return (
               <motion.div
@@ -119,7 +125,7 @@ export default function Projects({ projects = [] }) {
                           className={styles.thumbnail}
                           onClick={() => openLightbox(images, i)}
                         >
-                          <img src={`/uploads/${img.filename}`} alt={img.caption || `Screenshot ${i + 1}`} />
+                          <img src={getImageUrl(img.filename)} alt={img.caption || `Screenshot ${i + 1}`} />
                           {i === 3 && images.length > 4 && (
                             <span className={styles.thumbnailMore}>+{images.length - 4}</span>
                           )}
@@ -173,7 +179,7 @@ export default function Projects({ projects = [] }) {
               exit={{ scale: 0.9 }}
             >
               <img
-                src={`/uploads/${lightbox.images[lightbox.index]?.filename}`}
+                src={getImageUrl(lightbox.images[lightbox.index]?.filename)}
                 alt={lightbox.images[lightbox.index]?.caption || 'Project screenshot'}
                 className={styles.lightboxImage}
               />
