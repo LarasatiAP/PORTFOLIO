@@ -310,7 +310,7 @@ export default function AdminProjectsPage() {
                     aspectRatio: '1',
                   }}>
                     <img
-                      src={`/uploads/${img.filename}`}
+                      src={img.filename.startsWith('http') ? img.filename : `/uploads/${img.filename}`}
                       alt={img.caption || 'Project image'}
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
