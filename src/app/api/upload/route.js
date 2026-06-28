@@ -16,8 +16,39 @@ export async function POST(request) {
 
   let url;
 
-  if (process.env.BLOB_READ_WRITE_TOKEN) {
-    // Production: Vercel Blob
+  // Check if using Supabase Storage (preferred) or Vercel Blob
+  if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
+    // Production: Supabase Storage
+    const { createClient } = await import('@supabase/supabase-js');
+    const supabase = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    );
+
+    const ext = file.name.split('.').pop();
+    const filename = `projects/${projectId}/${Date.now()}-${Math.random().toString(36).substr(2,8)}.${ext}`;
+    const arrayBuffer = await file.arrayBuffer();
+    
+    const { data, error } = await supabase.storage
+      .from('portfolio-uploads')
+      .upload(filename, arrayBuffer, {
+        contentType: file.type,
+        cacheControl: '3600',
+        upsert: false
+      });
+
+    if (error) {
+      return Response.json({ error: error.message }, { status: 500 });
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabase.storage
+      .from('portfolio-uploads')
+      .getPublicUrl(filename);
+
+    url = publicUrl;
+  } else if (process.env.BLOB_READ_WRITE_TOKEN) {
+    // Fallback: Vercel Blob
     const { put } = await import('@vercel/blob');
     const ext = file.name.split('.').pop();
     const blob = await put(

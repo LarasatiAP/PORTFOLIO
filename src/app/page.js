@@ -1,46 +1,32 @@
-// TEMPORARY SIMPLE VERSION FOR DEBUGGING
+import Navbar from '@/components/Navbar';
+import Hero from '@/components/Hero';
+import About from '@/components/About';
+import Projects from '@/components/Projects';
+import Experience from '@/components/Experience';
+import Skills from '@/components/Skills';
+import Contact from '@/components/Contact';
+import Footer from '@/components/Footer';
+import { getAllProjectsWithImages, getAllExperiences, getAllSettings } from '@/lib/db';
+
 export const dynamic = 'force-dynamic';
 
-export default function Home() {
+export default async function Home() {
+  const [projects, experiences, settings] = await Promise.all([
+    getAllProjectsWithImages(),
+    getAllExperiences(),
+    getAllSettings(),
+  ]);
+
   return (
-    <main style={{ 
-      minHeight: '100vh', 
-      display: 'flex', 
-      alignItems: 'center', 
-      justifyContent: 'center',
-      padding: '2rem',
-      textAlign: 'center',
-      background: 'linear-gradient(to bottom, #1a1a2e, #16213e)'
-    }}>
-      <div>
-        <h1 style={{ fontSize: '3rem', fontWeight: 'bold', color: '#fff', marginBottom: '1rem' }}>
-          🚀 Portfolio Site
-        </h1>
-        <p style={{ fontSize: '1.25rem', color: '#94a3b8', marginBottom: '2rem' }}>
-          Deployment test - If you see this, Next.js is working!
-        </p>
-        <div style={{ 
-          background: '#0f172a', 
-          padding: '1.5rem', 
-          borderRadius: '0.5rem',
-          maxWidth: '500px',
-          margin: '0 auto'
-        }}>
-          <p style={{ color: '#22d3ee', fontFamily: 'monospace', marginBottom: '0.5rem' }}>
-            ✅ Next.js deployed successfully
-          </p>
-          <p style={{ color: '#22d3ee', fontFamily: 'monospace', marginBottom: '0.5rem' }}>
-            ✅ Routing is working
-          </p>
-          <p style={{ color: '#fbbf24', fontFamily: 'monospace' }}>
-            ⏳ Database connection pending
-          </p>
-        </div>
-        <p style={{ marginTop: '2rem', color: '#64748b', fontSize: '0.875rem' }}>
-          Check <a href="/api/test" style={{ color: '#3b82f6', textDecoration: 'underline' }}>/api/test</a> and{' '}
-          <a href="/api/health" style={{ color: '#3b82f6', textDecoration: 'underline' }}>/api/health</a>
-        </p>
-      </div>
+    <main style={{ position: 'relative', zIndex: 1 }}>
+      <Navbar />
+      <Hero settings={settings} />
+      <About settings={settings} />
+      <Projects projects={projects} />
+      <Experience experiences={experiences} />
+      <Skills />
+      <Contact />
+      <Footer />
     </main>
   );
 }
