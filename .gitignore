@@ -30,8 +30,13 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
+# env files
 .env*
+# keep local example if needed
+# !.env.example
+
+# database (SQLite local - no longer used)
+/data/
 
 # vercel
 .vercel
@@ -39,3 +44,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# uploads (now stored in Vercel Blob, not local disk)
+/public/uploads/

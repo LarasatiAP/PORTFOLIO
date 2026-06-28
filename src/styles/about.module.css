@@ -1,0 +1,128 @@
+.about {
+  position: relative;
+}
+
+.aboutGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.aboutImageWrapper {
+  position: relative;
+}
+
+.aboutImage {
+  width: 100%;
+  max-width: 400px;
+  aspect-ratio: 1;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  position: relative;
+  background: var(--gradient-subtle);
+  border: 1px solid var(--glass-border);
+}
+
+.aboutImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+  background: var(--gradient-subtle);
+}
+
+.aboutImageDecor {
+  position: absolute;
+  inset: -8px;
+  border-radius: var(--radius-xl);
+  border: 1px solid var(--glass-border);
+  z-index: -1;
+}
+
+.aboutContent {}
+
+.aboutText {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  line-height: 1.8;
+  margin-bottom: 16px;
+}
+
+.aboutHighlight {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.infoGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.infoItem {
+  padding: 16px 20px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  transition: all var(--transition-fast);
+}
+
+.infoItem:hover {
+  border-color: var(--glass-border-hover);
+  background: var(--bg-card-hover);
+}
+
+.infoLabel {
+  font-size: 0.8rem;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.infoValue {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+@media (max-width: 968px) {
+  .aboutGrid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .aboutImageWrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .aboutImage {
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 640px) {
+  .infoGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .infoGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .aboutImage {
+    max-width: 240px;
+  }
+
+  .aboutText {
+    font-size: 0.95rem;
+  }
+}

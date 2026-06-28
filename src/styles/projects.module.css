@@ -1,0 +1,367 @@
+.projects {}
+
+.projectsHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 48px;
+}
+
+.projectsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: 24px;
+}
+
+.projectCard {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition-base);
+  display: flex;
+  flex-direction: column;
+}
+
+.projectCard:hover {
+  border-color: var(--glass-border-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.projectImageWrapper {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  position: relative;
+  background: var(--gradient-subtle);
+}
+
+.projectImagePlaceholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  background: var(--gradient-subtle);
+}
+
+.projectImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-slow);
+}
+
+.projectCard:hover .projectImage {
+  transform: scale(1.05);
+}
+
+.projectOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 50%, rgba(61, 44, 53, 0.85));
+  opacity: 0;
+  transition: opacity var(--transition-base);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  gap: 12px;
+}
+
+.projectCard:hover .projectOverlay {
+  opacity: 1;
+}
+
+.overlayBtn {
+  padding: 8px 16px;
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-primary);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  text-decoration: none;
+  backdrop-filter: blur(10px);
+}
+
+.overlayBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-rose);
+}
+
+.projectBody {
+  padding: 24px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.featuredBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--accent-rose);
+  margin-bottom: 8px;
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.projectTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--text-primary);
+}
+
+.projectDescription {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 16px;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.techTag {
+  padding: 4px 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  font-family: var(--font-mono);
+  color: var(--accent-rose);
+  background: rgba(232, 114, 154, 0.08);
+  border: 1px solid rgba(232, 114, 154, 0.15);
+  border-radius: var(--radius-full);
+}
+
+.projectLinks {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid var(--glass-border);
+}
+
+.projectLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  transition: color var(--transition-fast);
+  text-decoration: none;
+}
+
+.projectLink:hover {
+  color: var(--accent-rose);
+}
+
+@media (max-width: 1024px) {
+  .projectsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .projectsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .projectsHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .projectCard {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .projectImageWrapper {
+    height: 160px;
+  }
+
+  .projectBody {
+    padding: 16px;
+  }
+}
+
+/* ---------- Thumbnail Gallery ---------- */
+.thumbnailRow {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+  margin-top: 4px;
+}
+
+.thumbnail {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  position: relative;
+  padding: 0;
+  background: none;
+}
+
+.thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thumbnail:hover {
+  border-color: var(--accent-rose);
+  transform: scale(1.05);
+}
+
+.thumbnailMore {
+  position: absolute;
+  inset: 0;
+  background: rgba(61, 44, 53, 0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ---------- Lightbox ---------- */
+.lightboxOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.lightboxClose {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+  z-index: 2001;
+}
+
+.lightboxClose:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightboxContent {
+  max-width: 90vw;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: default;
+}
+
+.lightboxImage {
+  max-width: 100%;
+  max-height: 75vh;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+}
+
+.lightboxCaption {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9rem;
+  margin-top: 12px;
+  text-align: center;
+}
+
+.lightboxCounter {
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  margin-top: 8px;
+}
+
+.lightboxNav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.lightboxNav:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.lightboxPrev {
+  left: 20px;
+}
+
+.lightboxNext {
+  right: 20px;
+}
+
+@media (max-width: 768px) {
+  .lightboxNav {
+    width: 36px;
+    height: 36px;
+  }
+
+  .lightboxPrev {
+    left: 8px;
+  }
+
+  .lightboxNext {
+    right: 8px;
+  }
+
+  .thumbnail {
+    width: 48px;
+    height: 48px;
+  }
+}
