@@ -30,10 +30,9 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files
+# env files - allow .env.example for deployment reference
 .env*
-# keep local example if needed
-# !.env.example
+!.env.example
 
 # database (SQLite local - no longer used)
 /data/

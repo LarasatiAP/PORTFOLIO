@@ -261,15 +261,15 @@ export default function AdminExperiencePage() {
               <div className={styles.formRow}>
                 <div className={styles.inputGroup}>
                   <label className={styles.inputLabel}>Type</label>
-                  <select
-                    className={styles.select}
+                  <input
+                    className={styles.input}
+                    placeholder="work, education, volunteer, etc."
                     value={form.type}
                     onChange={(e) => setForm({ ...form, type: e.target.value })}
-                  >
-                    <option value="work">Work</option>
-                    <option value="education">Education</option>
-                    <option value="volunteer">Volunteer</option>
-                  </select>
+                  />
+                  <small style={{ color: 'var(--text-tertiary)', fontSize: '0.8rem', marginTop: '4px' }}>
+                    e.g., work, education, volunteer, internship, freelance
+                  </small>
                 </div>
                 <div className={styles.inputGroup}>
                   <label className={styles.inputLabel}>Sort Order</label>

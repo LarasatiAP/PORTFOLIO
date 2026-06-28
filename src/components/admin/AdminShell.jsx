@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   LayoutDashboard,
   FolderKanban,
@@ -33,11 +33,15 @@ export default function AdminShell({ session, children }) {
     return <>{children}</>;
   }
 
-  // If not logged in and not on login page, redirect
-  if (!session) {
-    if (typeof window !== 'undefined') {
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!session) {
       router.push('/admin/login');
     }
+  }, [session, router]);
+
+  // If not logged in, show loading state
+  if (!session) {
     return (
       <div className={styles.loginPage}>
         <p style={{ color: 'var(--text-tertiary)' }}>Redirecting to login...</p>

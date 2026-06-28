@@ -1,242 +1,270 @@
-# 🚀 Panduan Deploy ke Vercel dengan Supabase
+# 🚀 Deployment Guide - Portfolio ke Vercel + Supabase
 
-## ⚠️ PENTING: Setup Supabase & Environment Variables Dulu!
+## 📋 Prerequisites
 
-Portfolio ini menggunakan:
-- **Database:** Supabase Postgres
-- **Storage:** Supabase Storage (untuk upload gambar)
-- **Hosting:** Vercel
+- ✅ Akun GitHub (code sudah di repository)
+- ✅ Akun Supabase (gratis di https://supabase.com)
+- ✅ Akun Vercel (gratis di https://vercel.com)
 
 ---
 
-## 1️⃣ Setup Supabase Project
+## Step 1️⃣: Setup Supabase Database (5 menit)
 
-### Create Project
-1. Buka https://supabase.com/dashboard (signup kalau belum punya akun)
+### 1. Create Supabase Project
+
+1. Login ke https://supabase.com/dashboard
 2. Klik **"New Project"**
-3. Isi:
+3. Isi form:
    - **Name:** Portfolio
-   - **Database Password:** Catat password ini! Contoh: `MySecurePassword123!`
-   - **Region:** Southeast Asia (Singapore) atau yang terdekat
-4. Klik **"Create new project"**
-5. Tunggu ~2 menit sampai project ready
+   - **Database Password:** Buat password (CATAT INI!)
+   - **Region:** Southeast Asia (Singapore)
+4. Tunggu ~2 menit sampai project ready
 
-### Get Database Connection String
-1. Di Supabase Dashboard → **Project Settings** (icon ⚙️ di sidebar kiri bawah)
-2. Klik **"Database"** di sidebar
-3. Scroll ke bawah, cari section **"Connection string"**
-4. Pilih tab **"URI"**
-5. Toggle **"Display connection pooler"** = OFF (pakai direct connection)
-6. Copy connection string, formatnya:
+### 2. Run SQL Schema
+
+1. Di Supabase Dashboard → **SQL Editor** (sidebar kiri)
+2. Klik **"New query"**
+3. Copy paste script dari file `supabase-schema.sql` di root project ini
+4. Klik **"Run"** atau tekan Ctrl+Enter
+5. Seharusnya muncul: "Success. No rows returned"
+
+### 3. Get Connection Details
+
+**A. Database URL:**
+1. **Project Settings** (⚙️ icon) → **Database**
+2. Section **"Connection string"** → tab **"URI"**
+3. Copy connection string:
    ```
    postgresql://postgres:[YOUR-PASSWORD]@db.xxxxx.supabase.co:5432/postgres
    ```
-7. **Ganti `[YOUR-PASSWORD]` dengan password yang kamu buat tadi**
-8. Simpan connection string ini untuk Step 3
+4. **Ganti `[YOUR-PASSWORD]`** dengan password yang kamu buat di Step 1
 
-### Setup Storage Bucket
-1. Di Supabase Dashboard → **Storage** (di sidebar)
-2. Klik **"Create a new bucket"**
-3. Isi:
-   - **Name:** `portfolio-uploads`
-   - **Public bucket:** ✅ CENTANG INI! (gambar harus publik)
-4. Klik **"Create bucket"**
-
-### Get API Keys
-1. Di Supabase Dashboard → **Project Settings** → **API**
-2. Copy 2 keys ini:
+**B. API Keys:**
+1. **Project Settings** → **API**
+2. Copy:
    - **Project URL:** `https://xxxxx.supabase.co`
-   - **anon public key:** `eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...` (sangat panjang)
+   - **anon public key:** `eyJhbGci...` (yang panjang)
+
+### 4. Setup Storage Bucket
+
+1. **Storage** (sidebar) → **Create a new bucket**
+2. **Name:** `portfolio-uploads`
+3. ✅ **Centang "Public bucket"**
+4. Klik **Create bucket**
 
 ---
 
-## 2️⃣ Delete Project Lama di Vercel (Kalau Ada)
+## Step 2️⃣: Deploy ke Vercel (10 menit)
 
-## 2️⃣ Delete Project Lama di Vercel (Kalau Ada)
+### 1. Delete Project Lama (Kalau Ada)
 
-1. Buka https://vercel.com/dashboard
-2. Pilih project **portfolio-murex-gamma-50** (atau nama project lama kamu)
-3. **Settings** → scroll ke bawah → **Delete Project**
-4. Confirm delete
+Kalau kamu sudah pernah deploy sebelumnya dan masih error:
+1. Vercel Dashboard → pilih project → Settings
+2. Scroll ke bawah → **Delete Project**
 
----
+### 2. Import Project dari GitHub
 
-## 3️⃣ Deploy Baru ke Vercel
-
-### Import dari GitHub
 1. Buka https://vercel.com/new
-2. Pilih **Import Git Repository**
-3. Cari dan pilih **LarasatiAP/PORTFOLIO**
-4. Klik **Import**
+2. Klik **"Import Git Repository"**
+3. Pilih repository: **LarasatiAP/PORTFOLIO**
+4. Klik **"Import"**
 
-### Set Environment Variables (SEBELUM DEPLOY!)
+### 3. Set Environment Variables
 
-**JANGAN KLIK DEPLOY DULU!** Scroll ke bawah, expand **Environment Variables**, lalu isi semua variable ini:
+**SEBELUM KLIK DEPLOY**, scroll ke bawah, expand **"Environment Variables"**
+
+Klik tombol **"Add"** atau **"Plaintext"**, lalu paste semua ini:
 
 ```env
-# Supabase Database (dari Step 1)
-DATABASE_URL=postgresql://postgres:MySecurePassword123!@db.xxxxx.supabase.co:5432/postgres
-
-# Supabase API (dari Step 1)
 NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
-
-# Admin Auth
 ADMIN_EMAIL=admin@portfolio.com
 ADMIN_PASSWORD=admin123
 AUTH_SECRET=p0rtf0l10-s3cr3t-k3y-larasati-2024-xK9mN2pQ
-
-# Init Secret
 INIT_SECRET=init-larasati-portfolio-2024
-
-# Public Contact Info
 NEXT_PUBLIC_EMAIL=larasatiap05@gmail.com
 NEXT_PUBLIC_GITHUB=https://github.com/LarasatiAP
 NEXT_PUBLIC_LINKEDIN=https://www.linkedin.com/in/larasati-anditta-putri-892b052b3/
 NEXT_PUBLIC_LOCATION=Indonesia
 ```
 
-**PENTING:**
-- Ganti `DATABASE_URL` dengan connection string kamu dari Supabase
-- Ganti `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` dari Supabase
-- **TIDAK PERLU** `BLOB_READ_WRITE_TOKEN` lagi!
+**⚠️ PENTING:** 
+- Ganti `NEXT_PUBLIC_SUPABASE_URL` dengan URL dari Supabase
+- Ganti `NEXT_PUBLIC_SUPABASE_ANON_KEY` dengan anon key dari Supabase
 
-### Deploy
-1. Setelah semua env vars diisi, klik **Deploy**
+### 4. Deploy!
+
+1. Klik **"Deploy"**
 2. Tunggu 2-3 menit
-3. Kalau berhasil, copy URL deployment (contoh: `https://portfolio-abc123.vercel.app`)
+3. Kalau berhasil, akan muncul **confetti** 🎉 dan URL deployment
 
 ---
 
-## 4️⃣ Initialize Database
+## Step 3️⃣: Initialize Database (1 menit)
 
-Setelah deployment sukses ✅, buka browser dan akses:
+Setelah deployment selesai:
 
-```
-https://portfolio-abc123.vercel.app/api/init?secret=init-larasati-portfolio-2024
-```
-
-Ganti `portfolio-abc123.vercel.app` dengan URL Vercel kamu!
-
-**Expected Response (sukses):**
-```json
-{
-  "ok": true,
-  "message": "Database initialized successfully",
-  "mode": "postgres",
-  "hasDBUrl": true
-}
-```
+1. Copy URL deployment (contoh: `https://portfolio-abc123.vercel.app`)
+2. Buka browser, akses:
+   ```
+   https://portfolio-abc123.vercel.app/api/init?secret=init-larasati-portfolio-2024
+   ```
+3. Seharusnya muncul response:
+   ```json
+   {"ok":true,"mode":"supabase"}
+   ```
 
 Ini akan:
-- ✅ Create tables (projects, experiences, settings, project_images)
-- ✅ Insert seed data (contoh projects & experiences)
-- ✅ Insert default settings (about section, contact info)
+- ✅ Isi table `settings` dengan default values
+- ✅ Isi table `projects` dengan 3 contoh projects
+- ✅ Isi table `experiences` dengan 3 contoh experiences
 
 ---
 
-## 5️⃣ Test Website
+## Step 4️⃣: Test Website
 
-Akses homepage: `https://portfolio-abc123.vercel.app/`
+### Homepage
+Akses: `https://your-site.vercel.app/`
 
-Kalau berhasil, kamu akan lihat:
+Seharusnya muncul:
 - ✅ Hero section dengan animasi
 - ✅ About section
-- ✅ Projects (3 contoh projects dari seed data)
-- ✅ Experience timeline
-- ✅ Skills section
-- ✅ Contact section
+- ✅ 3 Projects (dari seed data)
+- ✅ 3 Experiences (dari seed data)
+- ✅ Skills, Contact, Footer
 
----
-
-## 6️⃣ Login ke Admin Panel
-
-1. Akses: `https://portfolio-abc123.vercel.app/admin/login`
+### Admin Panel
+1. Akses: `https://your-site.vercel.app/admin/login`
 2. Login dengan:
    - **Email:** `admin@portfolio.com`
    - **Password:** `admin123`
-
-Setelah login, kamu bisa:
-- ✅ Upload foto profil
-- ✅ Edit About section (paragraf & info boxes)
-- ✅ Add/Edit/Delete Projects
-- ✅ Upload gambar untuk projects
-- ✅ Add/Edit/Delete Experience & Education
-
----
-
-## ✅ Checklist - Pastikan Semua Done
-
-- [ ] Supabase project sudah dibuat
-- [ ] `DATABASE_URL` sudah dicopy dari Supabase
-- [ ] Supabase bucket `portfolio-uploads` sudah dibuat & public
-- [ ] `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` sudah dicopy
-- [ ] Project lama di Vercel sudah dihapus (kalau ada)
-- [ ] Project baru sudah diimport dari GitHub ke Vercel
-- [ ] Semua environment variables sudah diisi di Vercel
-- [ ] Deployment berhasil (status: Ready)
-- [ ] Sudah akses `/api/init?secret=...` untuk initialize database
-- [ ] Homepage bisa dibuka tanpa error
-- [ ] Bisa login ke `/admin/login`
+3. Setelah login, kamu bisa:
+   - Upload foto profil
+   - Edit about section
+   - Add/Edit/Delete projects
+   - Upload project images
+   - Add/Edit/Delete experiences
 
 ---
 
-## 🔍 Troubleshooting
+## 🎉 Done!
 
-### Error: 500 Internal Server Error saat buka homepage
+Portfolio kamu sekarang:
+- ✅ Live di Vercel
+- ✅ Database di Supabase (Postgres)
+- ✅ Storage di Supabase (untuk images)
+- ✅ Auto-deploy dari GitHub (push = auto update)
+- ✅ Admin panel untuk edit content
 
-**Penyebab:** Database belum diinit atau `DATABASE_URL` salah
+---
+
+## 🔄 Update Portfolio
+
+### Cara 1: Edit via Admin Panel
+1. Login ke `/admin`
+2. Edit content (projects, experiences, about, etc.)
+3. Upload images
+4. Changes langsung apply!
+
+### Cara 2: Edit Code
+1. Edit code di local
+2. Test di `localhost:3000`
+3. Commit & push ke GitHub:
+   ```bash
+   git add .
+   git commit -m "Update portfolio"
+   git push
+   ```
+4. Vercel otomatis deploy (tunggu 2-3 menit)
+
+---
+
+## 🐛 Troubleshooting
+
+### Error: "Could not find table in schema cache"
+**Penyebab:** Tables belum dibuat di Supabase
 
 **Solusi:**
-1. Check env vars di Vercel → Project Settings → Environment Variables
-2. Pastikan `DATABASE_URL` benar (coba login ke Supabase dan query manual)
-3. Akses `/api/init?secret=init-larasati-portfolio-2024`
-4. Check response - kalau error, screenshot dan debug
+1. Buka Supabase → SQL Editor
+2. Run script dari `supabase-schema.sql`
+3. Check di Table Editor, seharusnya ada 4 tables
 
-### Error: Failed to upload image
-
-**Penyebab:** Supabase Storage belum dikonfigurasi
+### Error: 500 Internal Server Error
+**Penyebab:** Environment variables salah atau belum diset
 
 **Solusi:**
-1. Check bucket `portfolio-uploads` ada di Supabase Storage
-2. Pastikan bucket is **Public**
-3. Check `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY` di env vars
-4. Redeploy kalau perlu: Vercel Dashboard → Deployments → ... → Redeploy
+1. Vercel Dashboard → Project → Settings → Environment Variables
+2. Check semua variables ada dan benar
+3. Redeploy: Deployments → ... → Redeploy
+
+### Error: Cannot upload image
+**Penyebab:** Supabase storage bucket belum dibuat atau tidak public
+
+**Solusi:**
+1. Supabase → Storage → Check bucket `portfolio-uploads` exist
+2. Klik bucket → Settings → pastikan **Public** is enabled
+3. Check env vars `NEXT_PUBLIC_SUPABASE_URL` dan `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
 ### Error: Cannot login admin
-
 **Penyebab:** `AUTH_SECRET` atau credentials salah
 
 **Solusi:**
-1. Check `AUTH_SECRET`, `ADMIN_EMAIL`, `ADMIN_PASSWORD` di env vars
-2. Clear browser cookies
-3. Try incognito/private mode
-
-### Error: 404 Not Found
-
-**Penyebab:** Routing issue atau deployment gagal
-
-**Solusi:**
-1. Check Vercel deployment logs: Deployments → click latest → View Function Logs
-2. Pastikan build sukses (ada checkmark hijau)
-3. Coba redeploy
-4. Kalau masih 404, delete project dan reimport ulang
+1. Check env vars di Vercel
+2. Pastikan `ADMIN_EMAIL` dan `ADMIN_PASSWORD` benar
+3. Clear browser cookies, coba lagi
 
 ---
 
-## 📝 Architecture Notes
+## 📝 Notes
 
-### Database Mode
-- **Production (Vercel):** Supabase Postgres
-  - Aktif kalau `DATABASE_URL` ada
-  - SQLite di-exclude dari build via `serverExternalPackages`
-  
-- **Local Development:** SQLite  
-  - Aktif kalau `DATABASE_URL` kosong
-  - File database di `data/portfolio.db`
+### Database
+- **Production:** Supabase Postgres (semua data di cloud)
+- **Local Dev:** Pakai database Supabase yang sama (edit `.env` file)
 
-### Image Storage
-- **Production:** Supabase Storage (bucket: `portfolio-uploads`)
-- **Local Dev:** Public folder (`/uploads`)
+### Images
+- **Production:** Supabase Storage bucket `portfolio-uploads`
+- **Local Dev:** Pakai Supabase Storage juga (sharing dengan production)
 
-Semua ini di-handle otomatis di `src/lib/db.js` dan upload routes.
+### Auto Deploy
+- Setiap kali push ke branch `main` di GitHub
+- Vercel otomatis build & deploy
+- Tidak perlu manual deploy lagi!
+
+### Custom Domain (Optional)
+1. Beli domain (Namecheap, GoDaddy, dll)
+2. Vercel → Project Settings → Domains
+3. Add domain → ikuti instruksi DNS
+
+---
+
+## � Security
+
+**File `.env` JANGAN di-commit ke Git!**
+
+File `.env` sudah ada di `.gitignore`, jadi aman.
+
+Kalau mau update env vars:
+1. Edit di Vercel Dashboard (bukan di git)
+2. Redeploy setelah update
+
+---
+
+## ✅ Checklist
+
+Sebelum consider "done", pastikan:
+
+- [ ] Supabase project sudah dibuat
+- [ ] SQL schema sudah di-run (4 tables exist)
+- [ ] Storage bucket `portfolio-uploads` sudah dibuat & public
+- [ ] Vercel project sudah di-import dari GitHub
+- [ ] Environment variables sudah diset di Vercel
+- [ ] Deployment sukses (status: Ready)
+- [ ] `/api/init` sudah diakses (seed data inserted)
+- [ ] Homepage bisa dibuka tanpa error
+- [ ] Bisa login ke `/admin`
+- [ ] Bisa upload images
+- [ ] Auto-deploy jalan (test: edit README, push, check Vercel)
+
+---
+
+**Selamat! Portfolio kamu sudah live! 🎉**

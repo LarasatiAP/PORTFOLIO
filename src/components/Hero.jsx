@@ -84,11 +84,11 @@ export default function Hero({ settings = {} }) {
           </span>
           <span className={styles.codeLine}>
             {'  name: '}
-            <span className={styles.codeString}>{'"Creative Dev"'}</span>,
+            <span className={styles.codeString}>{'"Larasati AP"'}</span>,
           </span>
           <span className={styles.codeLine}>
             {'  passion: '}
-            <span className={styles.codeString}>{'"Building UIs"'}</span>,
+            <span className={styles.codeString}>{'"Building Software"'}</span>,
           </span>
           <span className={styles.codeLine}>
             {'  coffee: '}
